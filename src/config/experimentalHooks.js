@@ -1,11 +1,11 @@
 import { useContext } from 'react';
+import { DevContext } from '../helpers/DevContext';
 import { defaultConfig } from './experimental';
-import { RainbowContext } from '@rainbow-me/helpers/RainbowContext';
 
 const useExperimentalFlag = name => {
   if (IS_DEV) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    return useContext(RainbowContext).config[name];
+    return useContext(DevContext).config[name];
   } else {
     return defaultConfig[name];
   }

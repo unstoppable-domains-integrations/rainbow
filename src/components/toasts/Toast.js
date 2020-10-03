@@ -3,11 +3,11 @@ import Animated from 'react-native-reanimated';
 import { useSpringTransition } from 'react-native-redash';
 import { useSafeArea } from 'react-native-safe-area-context';
 import styled from 'styled-components/primitives';
+import { useDimensions } from '../../hooks';
 import { interpolate } from '../animations';
 import { Icon } from '../icons';
 import { RowWithMargins } from '../layout';
 import { TruncatedText } from '../text';
-import { useDimensions } from '@rainbow-me/hooks';
 import { colors, padding, position, shadow } from '@rainbow-me/styles';
 
 const springConfig = {
@@ -42,7 +42,6 @@ export default function Toast({
   isVisible,
   text,
   textColor = colors.white,
-  ...props
 }) {
   const { width: deviceWidth } = useDimensions();
   const insets = useSafeArea();
@@ -61,12 +60,7 @@ export default function Toast({
 
   return (
     <Animated.View style={{ opacity, transform: [{ translateY }] }}>
-      <Container
-        color={color}
-        deviceWidth={deviceWidth}
-        insets={insets}
-        {...props}
-      >
+      <Container color={color} deviceWidth={deviceWidth} insets={insets}>
         {children || (
           <Fragment>
             {icon && <Icon color={textColor} marginTop={3} name={icon} />}

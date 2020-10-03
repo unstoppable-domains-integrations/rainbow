@@ -19,11 +19,8 @@ import { Centered, Column, Row } from '../components/layout';
 import LoadingOverlay from '../components/modal/LoadingOverlay';
 import { SheetHandle } from '../components/sheet';
 import { Text } from '../components/text';
-import {
-  InvalidPasteToast,
-  ToastPositionContainer,
-} from '../components/toasts';
 import { getWallet } from '../model/wallet';
+
 import { web3Provider } from '@rainbow-me/handlers/web3';
 import isNativeStackAvailable from '@rainbow-me/helpers/isNativeStackAvailable';
 import {
@@ -37,7 +34,6 @@ import {
   useClipboard,
   useDimensions,
   useInitializeWallet,
-  useInvalidPaste,
   useIsWalletEthZero,
   useMagicAutofocus,
   usePrevious,
@@ -48,7 +44,6 @@ import { Navigation, useNavigation } from '@rainbow-me/navigation';
 import { sheetVerticalOffset } from '@rainbow-me/navigation/effects';
 import Routes from '@rainbow-me/routes';
 import { borders, colors, padding } from '@rainbow-me/styles';
-import { deviceUtils } from '@rainbow-me/utils';
 import logger from 'logger';
 import { usePortal } from 'react-native-cool-modals/Portal';
 
@@ -131,8 +126,7 @@ const Sheet = styled(Column).attrs({
 export default function ImportSeedPhraseSheet() {
   const { accountAddress } = useAccountSettings();
   const { selectedWallet, wallets } = useWallets();
-  const { getClipboard, hasClipboardData, clipboard } = useClipboard();
-  const { triggerInvalidPaste } = useInvalidPaste();
+  const { clipboard } = useClipboard();
   const { isSmallPhone } = useDimensions();
   const { goBack, navigate, replace, setParams } = useNavigation();
   const initializeWallet = useInitializeWallet();
@@ -151,13 +145,9 @@ export default function ImportSeedPhraseSheet() {
   const inputRef = useRef(null);
   const { handleFocus } = useMagicAutofocus(inputRef);
 
-  const isClipboardValidSecret = useMemo(
-    () =>
-      deviceUtils.isIOS14
-        ? hasClipboardData
-        : clipboard !== accountAddress && isValidWallet(clipboard),
-    [accountAddress, clipboard, hasClipboardData]
-  );
+  const isClipboardValidSecret = useMemo(() => {
+    return clipboard !== accountAddress && isValidWallet(clipboard);
+  }, [accountAddress, clipboard]);
 
   const isSecretValid = useMemo(() => {
     return seedPhrase !== accountAddress && isValidWallet(seedPhrase);
@@ -248,21 +238,10 @@ export default function ImportSeedPhraseSheet() {
   }, [isSecretValid, seedPhrase, showWalletProfileModal]);
 
   const handlePressPasteButton = useCallback(() => {
-    if (deviceUtils.isIOS14 && !hasClipboardData) return;
-    getClipboard(result => {
-      if (result !== accountAddress && isValidWallet(result)) {
-        return handleSetSeedPhrase(result);
-      } else {
-        return triggerInvalidPaste();
-      }
-    });
-  }, [
-    accountAddress,
-    getClipboard,
-    handleSetSeedPhrase,
-    hasClipboardData,
-    triggerInvalidPaste,
-  ]);
+    if (clipboard && isClipboardValidSecret) {
+      return handleSetSeedPhrase(clipboard);
+    }
+  }, [clipboard, handleSetSeedPhrase, isClipboardValidSecret]);
 
   useEffect(() => {
     if (!wasImporting && isImporting) {
@@ -422,9 +401,6 @@ export default function ImportSeedPhraseSheet() {
             </FooterButton>
           )}
         </Footer>
-        <ToastPositionContainer>
-          <InvalidPasteToast />
-        </ToastPositionContainer>
       </Sheet>
       <KeyboardSizeView isOpen />
     </Container>

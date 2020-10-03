@@ -7,18 +7,18 @@ import React, {
   useState,
 } from 'react';
 import { useSharedValue } from 'react-native-reanimated';
+
 import { defaultConfig } from '../config/experimental';
 
-export const RainbowContext = createContext({});
+export const DevContext = createContext({});
 
 const EXPERIMENTAL_CONFIG = 'experimentalConfig';
 
-export default function RainbowContextWrapper({ children }) {
+function DevContextComponent({ children }) {
   // This value is hold here to prevent JS VM from shutting down
   // on unmounting all shared values.
-  useSharedValue(0, 'RainbowContextComponent');
+  useSharedValue(0, 'DevContextComponent');
   const [config, setConfig] = useState(defaultConfig);
-  const [globalState, updateGlobalState] = useState({});
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(async () => {
@@ -27,30 +27,23 @@ export default function RainbowContextWrapper({ children }) {
       setConfig(config => ({ ...config, ...JSON.parse(configFromStorage) }));
     }
   }, []);
-
   const setConfigWithStorage = useCallback(newConfig => {
     AsyncStorage.setItem(EXPERIMENTAL_CONFIG, JSON.stringify(newConfig));
     setConfig(newConfig);
   }, []);
-
-  const setGlobalState = useCallback(
-    newState => updateGlobalState(prev => ({ ...prev, ...(newState || {}) })),
-    [updateGlobalState]
-  );
-
-  const initialValue = useMemo(
+  const value = useMemo(
     () => ({
-      ...globalState,
       config,
       setConfig: setConfigWithStorage,
-      setGlobalState,
     }),
-    [config, globalState, setConfigWithStorage, setGlobalState]
+    [config, setConfigWithStorage]
   );
+  return <DevContext.Provider value={value}>{children}</DevContext.Provider>;
+}
 
-  return (
-    <RainbowContext.Provider value={initialValue}>
-      {children}
-    </RainbowContext.Provider>
-  );
+export default function DevContextWrapper({ children }) {
+  if (!IS_DEV) {
+    return children;
+  }
+  return <DevContextComponent>{children}</DevContextComponent>;
 }

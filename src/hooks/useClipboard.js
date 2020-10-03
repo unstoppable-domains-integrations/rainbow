@@ -1,67 +1,46 @@
 import Clipboard from '@react-native-community/clipboard';
 import { useCallback, useEffect, useState } from 'react';
 import useAppState from './useAppState';
-import { deviceUtils } from '@rainbow-me/utils';
 
 const listeners = new Set();
 
-function setClipboard(content) {
+function setString(content) {
   Clipboard.setString(content);
   listeners.forEach(listener => listener(content));
 }
 
 export default function useClipboard() {
   const { justBecameActive } = useAppState();
-  const [hasClipboardData, setHasClipboardData] = useState(false);
-  const [clipboardData, updateClipboardData] = useState('');
+  const [data, updateClipboardData] = useState('');
 
-  const checkClipboard = useCallback(
-    () => Clipboard.hasString().then(setHasClipboardData),
-    [setHasClipboardData]
-  );
-
-  const getClipboard = useCallback(
-    callback =>
-      Clipboard.getString().then(result => {
-        callback(result);
-        updateClipboardData(result);
-      }),
+  const getClipboardData = useCallback(
+    () => Clipboard.getString().then(updateClipboardData),
     []
   );
 
-  // Get initial clipboardData
+  // Get initial data
   useEffect(() => {
-    if (deviceUtils.isIOS14) {
-      checkClipboard();
-    } else {
-      getClipboard();
-    }
-  }, [checkClipboard, getClipboard]);
+    getClipboardData();
+  }, [getClipboardData]);
 
-  // Get clipboardData when app just became foregrounded
+  // Get data when app just became foregrounded
   useEffect(() => {
     if (justBecameActive) {
-      if (deviceUtils.isIOS14) {
-        checkClipboard();
-      } else {
-        getClipboard();
-      }
+      getClipboardData();
     }
-  }, [checkClipboard, getClipboard, justBecameActive]);
+  }, [getClipboardData, justBecameActive]);
 
   // Listen for updates
   useEffect(() => {
     listeners.add(updateClipboardData);
+
     return () => {
       listeners.delete(updateClipboardData);
     };
   }, []);
 
   return {
-    clipboard: clipboardData,
-    enablePaste: deviceUtils.isIOS14 ? hasClipboardData : clipboardData,
-    getClipboard,
-    hasClipboardData,
-    setClipboard,
+    clipboard: data,
+    setClipboard: setString,
   };
 }

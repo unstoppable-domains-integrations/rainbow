@@ -4,7 +4,7 @@ import { Column } from '../layout';
 const ToastPositionContainer = styled(Column).attrs({
   pointerEvents: 'none',
 })`
-  bottom: ${({ bottom = 0 }) => bottom};
+  bottom: 0;
   left: 0;
   position: absolute;
   right: 0;

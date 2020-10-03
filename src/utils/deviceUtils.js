@@ -1,4 +1,4 @@
-import { Dimensions, Platform } from 'react-native';
+import { Dimensions } from 'react-native';
 
 const { height, width } = Dimensions.get('window');
 
@@ -20,8 +20,5 @@ deviceUtils.dimensions = {
   height,
   width,
 };
-
-deviceUtils.isIOS14 =
-  Platform.OS === 'ios' && parseFloat(Platform.Version) >= 14;
 
 export default deviceUtils;
