@@ -1,11 +1,11 @@
 import { Interface } from '@ethersproject/abi';
 import { ChainId, Token, WETH } from '@uniswap/sdk';
 import { abi as IUniswapV2PairABI } from '@uniswap/v2-core/build/IUniswapV2Pair.json';
-import { keyBy, map, toLower } from 'lodash';
+import { filter, keyBy, map, toLower } from 'lodash';
 import { DAI_ADDRESS, tokenOverrides, USDC_ADDRESS } from '../';
+import UNISWAP_TOKEN_LIST from './rainbow-token-list.json';
 import MULTICALL_ABI from './uniswap-multicall-abi.json';
 import { default as UNISWAP_TESTNET_TOKEN_LIST } from './uniswap-pairs-testnet.json';
-import UNISWAP_TOKEN_LIST from './uniswap-token-list.json';
 import { abi as UNISWAP_V2_ROUTER_ABI } from './uniswap-v2-router.json';
 import UNISWAP_V1_EXCHANGE_ABI from './v1-exchange-abi';
 
@@ -25,7 +25,15 @@ const ETHER_WITH_ADDRESS = {
   symbol: 'ETH',
 };
 
-const CURATED_UNISWAP_TOKEN_LIST = [ETHER_WITH_ADDRESS, ...TOKEN_LIST];
+const RAINBOW_CURATED_TOKENS = filter(
+  TOKEN_LIST,
+  'token.extensions.isRainbowCurated'
+);
+
+const CURATED_UNISWAP_TOKEN_LIST = [
+  ETHER_WITH_ADDRESS,
+  ...RAINBOW_CURATED_TOKENS,
+];
 
 const CURATED_UNISWAP_TOKENS = keyBy(CURATED_UNISWAP_TOKEN_LIST, 'address');
 
