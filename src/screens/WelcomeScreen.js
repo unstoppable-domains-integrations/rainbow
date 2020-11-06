@@ -28,7 +28,6 @@ import {
 } from '../handlers/cloudBackup';
 import { cloudPlatform } from '../utils/platform';
 
-import { useHideSplashScreen } from '@rainbow-me/hooks';
 import Routes from '@rainbow-me/routes';
 import { colors, shadow } from '@rainbow-me/styles';
 import logger from 'logger';
@@ -350,7 +349,6 @@ function colorAnimation(rValue, fromShadow) {
 export default function WelcomeScreen() {
   const { replace, navigate } = useNavigation();
   const contentAnimation = useAnimatedValue(1);
-  const hideSplashScreen = useHideSplashScreen();
   const createWalletButtonAnimation = useAnimatedValue(1);
   const [userData, setUserData] = useState(null);
 
@@ -367,42 +365,41 @@ export default function WelcomeScreen() {
       } catch (e) {
         logger.log('error getting userData', e);
       } finally {
-        hideSplashScreen();
-        Animated.parallel([
-          ...traversedRainbows.map(({ value, delay = 0 }) =>
-            Animated.spring(value, { ...springConfig, delay })
-          ),
-          Animated.sequence([
-            Animated.timing(contentAnimation.current, {
-              duration: 120,
-              easing: Easing.bezier(0.165, 0.84, 0.44, 1),
-              toValue: 1.2,
-            }),
-            Animated.spring(contentAnimation.current, {
-              friction: 8,
-              tension: 100,
-              toValue: 1,
-            }),
-          ]),
-          // We need to disable looping animations
-          // There's no way to disable sync yet
-          // See https://stackoverflow.com/questions/47391019/animated-button-block-the-detox
-          IS_TESTING !== 'true' &&
-            Animated.loop(
-              Animated.sequence([
-                Animated.timing(createWalletButtonAnimation.current, {
-                  duration: 1000,
-                  toValue: 1.02,
-                  useNativeDriver: true,
-                }),
-                Animated.timing(createWalletButtonAnimation.current, {
-                  duration: 1000,
-                  toValue: 0.98,
-                  useNativeDriver: true,
-                }),
-              ])
-            ),
-        ]).start();
+        // Animated.parallel([
+        //   ...traversedRainbows.map(({ value, delay = 0 }) =>
+        //     Animated.spring(value, { ...springConfig, delay })
+        //   ),
+        //   Animated.sequence([
+        //     Animated.timing(contentAnimation.current, {
+        //       duration: 120,
+        //       easing: Easing.bezier(0.165, 0.84, 0.44, 1),
+        //       toValue: 1.2,
+        //     }),
+        //     Animated.spring(contentAnimation.current, {
+        //       friction: 8,
+        //       tension: 100,
+        //       toValue: 1,
+        //     }),
+        //   ]),
+        //   // We need to disable looping animations
+        //   // There's no way to disable sync yet
+        //   // See https://stackoverflow.com/questions/47391019/animated-button-block-the-detox
+        //   IS_TESTING !== 'true' &&
+        //     Animated.loop(
+        //       Animated.sequence([
+        //         Animated.timing(createWalletButtonAnimation.current, {
+        //           duration: 1000,
+        //           toValue: 1.02,
+        //           useNativeDriver: true,
+        //         }),
+        //         Animated.timing(createWalletButtonAnimation.current, {
+        //           duration: 1000,
+        //           toValue: 0.98,
+        //           useNativeDriver: true,
+        //         }),
+        //       ])
+        //     ),
+        // ]).start();
         if (IS_TESTING === 'true') {
           logger.log(
             'Disabled loop animations in WelcomeScreen due to .env var IS_TESTING === "true"'
@@ -418,7 +415,7 @@ export default function WelcomeScreen() {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       contentAnimation.current.setValue(1);
     };
-  }, [contentAnimation, hideSplashScreen, createWalletButtonAnimation]);
+  }, [contentAnimation, createWalletButtonAnimation]);
 
   const buttonStyle = useMemoOne(
     () => ({
@@ -441,7 +438,7 @@ export default function WelcomeScreen() {
 
   const rValue = useValue(0);
 
-  const backgroundColor = useMemoOne(() => colorAnimation(rValue, false), []);
+  const backgroundColor = colors.red;
 
   const onCreateWallet = useCallback(async () => {
     replace(Routes.SWIPE_LAYOUT, {

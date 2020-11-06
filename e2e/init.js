@@ -21,6 +21,7 @@ beforeAll(async () => {
 
 beforeEach(async () => {
   await adapter.beforeEach();
+  await device.disableSynchronization();
 });
 
 afterAll(async () => {
