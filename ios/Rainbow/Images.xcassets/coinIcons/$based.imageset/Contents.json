@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "based.png",
+      "filename" : "$based.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "based@2x.png",
+      "filename" : "$based@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "based@3x.png",
+      "filename" : "$based@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
