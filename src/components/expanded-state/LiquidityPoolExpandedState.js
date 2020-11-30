@@ -1,6 +1,5 @@
 import { map } from 'lodash';
 import React from 'react';
-import { magicMemo } from '../../utils';
 import {
   DepositActionButton,
   SheetActionButtonRow,
@@ -15,6 +14,7 @@ import {
   TokenInfoSection,
 } from '../token-info';
 import ChartState from './chart/ChartState';
+import { magicMemo } from '@rainbow-me/utils';
 
 const heightWithoutChart = 373 + (android ? 80 : 0);
 const heightWithChart = heightWithoutChart + 292;
@@ -39,17 +39,15 @@ const LiquidityPoolExpandedState = ({ asset }) => {
       <SheetDivider />
       <TokenInfoSection>
         <TokenInfoRow>
-          {map(tokens, tokenAsset => {
-            return (
-              <TokenInfoItem
-                asset={tokenAsset}
-                key={`tokeninfo-${tokenAsset.symbol}`}
-                title={`${tokenAsset.symbol} balance`}
-              >
-                <TokenInfoBalanceValue />
-              </TokenInfoItem>
-            );
-          })}
+          {map(tokens, tokenAsset => (
+            <TokenInfoItem
+              asset={tokenAsset}
+              key={`tokeninfo-${tokenAsset.symbol}`}
+              title={`${tokenAsset.symbol} balance`}
+            >
+              <TokenInfoBalanceValue />
+            </TokenInfoItem>
+          ))}
         </TokenInfoRow>
         <TokenInfoRow>
           <TokenInfoItem title="Pool shares">{uniBalanceLabel}</TokenInfoItem>
