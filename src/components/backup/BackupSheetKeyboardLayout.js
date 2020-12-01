@@ -1,6 +1,6 @@
 import { useRoute } from '@react-navigation/native';
 import React from 'react';
-import { StatusBar } from 'react-native';
+import { StatusBar, View } from 'react-native';
 import { KeyboardArea } from 'react-native-keyboard-area';
 import styled from 'styled-components';
 import { RainbowButton } from '../buttons';
@@ -57,7 +57,11 @@ export default function BackupSheetKeyboardLayout({
           onPress={onSubmit}
         />
       </Footer>
-      {android ? <KeyboardSizeView /> : null}
+      {android ? (
+        <View style={{ backgroundColor: 'red', paddingTop: 40 }}>
+          <KeyboardSizeView />
+        </View>
+      ) : null}
     </Column>
   );
 }
