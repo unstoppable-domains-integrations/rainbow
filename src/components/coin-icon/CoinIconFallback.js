@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { FallbackIcon } from 'react-coin-icon';
 import styled from 'styled-components/primitives';
 import ImageWithCachedMetadata from '../ImageWithCachedMetadata';
@@ -50,17 +50,13 @@ const CoinIconFallback = fallbackProps => {
 
   const tokenMetadata = getTokenMetadata(address);
   const fallbackIconColor = useColorForAsset({ address });
-  const imageUrl = useMemo(() => getUrlForTrustIconFallback(address), [
-    address,
-  ]);
-
+  const imageUrl = getUrlForTrustIconFallback(address);
   return (
     <Centered height={height} width={width}>
       {!showImage && (
         <FallbackIcon
           {...fallbackProps}
           color={fallbackIconColor}
-          showImage={showImage}
           symbol={symbol || ''}
           textStyles={fallbackTextStyles}
         />
