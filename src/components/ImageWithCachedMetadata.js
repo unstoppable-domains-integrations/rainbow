@@ -12,10 +12,10 @@ const ImageWithCachedMetadata = (
 
   const handleLoad = useCallback(
     event => {
-      onCacheImageMetadata(event?.nativeEvent);
       if (onLoad) {
         onLoad(event);
       }
+      onCacheImageMetadata(event?.nativeEvent);
     },
     [onCacheImageMetadata, onLoad]
   );
