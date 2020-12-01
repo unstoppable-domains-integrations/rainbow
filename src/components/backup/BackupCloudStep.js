@@ -31,7 +31,7 @@ const DescriptionText = styled(Text).attrs(({ isTinyPhone }) => ({
   align: 'center',
   color: colors.blueGreyDark50,
   lineHeight: 'looser',
-  size: isTinyPhone ? 'lmedium' : 'large',
+  size: isTinyPhone ? 'lmedium' : android ? 'lmedium' : 'large',
 }))``;
 
 const ImportantText = styled(DescriptionText).attrs({
@@ -43,7 +43,11 @@ const Masthead = styled(Centered).attrs({
   direction: 'column',
 })`
   ${({ isTallPhone, isTinyPhone }) =>
-    padding(isTinyPhone ? 0 : 9, isTinyPhone ? 10 : 50, isTallPhone ? 39 : 19)};
+    padding(
+      isTinyPhone ? 0 : android ? 0 : 9,
+      isTinyPhone ? 10 : 50,
+      isTallPhone ? 39 : 10
+    )};
   flex-shrink: 0;
 `;
 
@@ -62,7 +66,8 @@ const Title = styled(Text).attrs(({ isTinyPhone }) => ({
   size: isTinyPhone ? 'large' : 'big',
   weight: 'bold',
 }))`
-  ${({ isTinyPhone }) => (isTinyPhone ? padding(0) : padding(15, 0, 12))};
+  ${({ isTinyPhone }) =>
+    isTinyPhone ? padding(0) : padding(android ? 0 : 15, 0, android ? 4 : 12)};
 `;
 
 export default function BackupCloudStep() {
@@ -242,7 +247,7 @@ export default function BackupCloudStep() {
       <Masthead isTallPhone={isTallPhone} isTinyPhone={isTinyPhone}>
         {!isTinyPhone && <MastheadIcon>􀌍</MastheadIcon>}
         <Title isTinyPhone={isTinyPhone}>Choose a password</Title>
-        <DescriptionText isTinyPhone={isTinyPhone}>
+        <DescriptionText flex={1} isTinyPhone={isTinyPhone}>
           Please use a password you&apos;ll remember.&nbsp;
           <ImportantText isTinyPhone={isTinyPhone}>
             It can&apos;t be recovered!

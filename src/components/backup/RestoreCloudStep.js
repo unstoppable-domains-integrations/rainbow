@@ -32,7 +32,7 @@ const DescriptionText = styled(Text).attrs({
 const Masthead = styled(Centered).attrs({
   direction: 'column',
 })`
-  ${padding(24, 50, 39)};
+  ${padding(24, 50, android ? 20 : 39)};
   flex-shrink: 0;
 `;
 
