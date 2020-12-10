@@ -13,7 +13,6 @@ import Animated, {
   timing,
   Value,
 } from 'react-native-reanimated';
-import stylePropType from 'react-style-proptype';
 import { useMemoOne } from 'use-memo-one';
 import useNativeButtonAvailable from '../../../helpers/isNativeButtonAvailable';
 import { useInteraction, useTransformOrigin } from '../../../hooks';
@@ -393,6 +392,7 @@ export default ButtonPressAnimation;
 ButtonPressAnimation.propTypes = {
   activeOpacity: PropTypes.number,
   children: PropTypes.any,
+  compensateForTransformOrigin: PropTypes.bool,
   disabled: PropTypes.bool,
   duration: PropTypes.number,
   enableHapticFeedback: PropTypes.bool,
@@ -402,10 +402,12 @@ ButtonPressAnimation.propTypes = {
   onLayout: PropTypes.func,
   onLongPress: PropTypes.func,
   onPress: PropTypes.func,
+  onPressIn: PropTypes.func,
   onPressStart: PropTypes.func,
+  opacityTouchable: PropTypes.bool,
   pressOutDuration: PropTypes.number,
   scaleTo: PropTypes.number,
-  style: stylePropType,
+  style: PropTypes.any,
   transformOrigin: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.number),
     directionPropType,

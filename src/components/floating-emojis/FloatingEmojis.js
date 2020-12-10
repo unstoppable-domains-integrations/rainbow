@@ -127,7 +127,8 @@ FloatingEmojis.propTypes = {
   range: PropTypes.arrayOf(PropTypes.number),
   scaleTo: PropTypes.number,
   setOnNewEmoji: PropTypes.func,
-  size: PropTypes.string.isRequired,
+  size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  tapTarget: PropTypes.arrayOf(PropTypes.number),
   wiggleFactor: PropTypes.number,
 };
 

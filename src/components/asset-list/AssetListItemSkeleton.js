@@ -35,7 +35,7 @@ const FakeAvatar = styled.View`
 `;
 
 const FakeRow = withProps({
-  align: 'flex-end',
+  align: 'end',
   flex: 0,
   height: 10,
   justify: 'space-between',
@@ -50,7 +50,7 @@ const FakeText = styled.View`
 `;
 
 const Wrapper = styled(RowWithMargins).attrs({
-  align: 'flex-end',
+  align: 'end',
   justify: 'space-between',
   margin: 10,
 })`
