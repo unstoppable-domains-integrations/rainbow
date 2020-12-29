@@ -1,23 +1,25 @@
 import { mapKeys, mapValues } from 'lodash';
 import { savingsAssets } from './compound';
 import { Asset } from '@rainbow-me/entities';
+
+export { default as chains } from './chains.json';
+export { compoundCERC20ABI, compoundCETHABI } from './compound';
 export {
   defiSdkAdapterRegistryABI,
   DEFI_SDK_ADAPTER_REGISTRY_ADDRESS,
 } from './defisdk';
+export { default as emojis } from './emojis.json';
+export { default as erc20ABI } from './erc20-abi.json';
+export { default as ethUnits } from './ethereum-units.json';
+export { DPI_ADDRESS } from './indexes';
+export { default as supportedNativeCurrencies } from './native-currencies.json';
+export { default as shitcoins } from './shitcoins.json';
 export {
   RAINBOW_TOKEN_LIST,
   UNISWAP_TESTNET_TOKEN_LIST,
   UNISWAP_V2_ROUTER_ABI,
   UNISWAP_V2_ROUTER_ADDRESS,
 } from './uniswap';
-export { default as chains } from './chains.json';
-export { compoundCERC20ABI, compoundCETHABI } from './compound';
-export { default as emojis } from './emojis.json';
-export { default as erc20ABI } from './erc20-abi.json';
-export { default as ethUnits } from './ethereum-units.json';
-export { default as supportedNativeCurrencies } from './native-currencies.json';
-export { default as shitcoins } from './shitcoins.json';
 
 export const ETH_ADDRESS = 'eth';
 export const CDAI_CONTRACT = '0x5d3a536e4d6dbd6114cc1ead35777bab948e3643';
