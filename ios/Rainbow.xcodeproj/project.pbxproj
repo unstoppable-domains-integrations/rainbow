@@ -593,7 +593,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = "/bin/bash -l";
-			shellScript = "# Here we call out to an arbitrary system environment variable to indicate that the application is being built.\n$RAINBOW_SCRIPTS_APP_IOS_PREBUILD_HOOK | bash /dev/stdin $SRCROOT\n";
+			shellScript = "# Here we call out to an arbitrary system environment variable to indicate that the application is being built. If the hook is not defined, this step will fail silently.\n$RAINBOW_SCRIPTS_APP_IOS_PREBUILD_HOOK | bash /dev/stdin $SRCROOT\n";
 		};
 		E5BAA1201450F6CFF8A6C0D3 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
