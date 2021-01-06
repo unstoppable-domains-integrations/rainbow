@@ -17,6 +17,7 @@ module.exports = {
     blacklistRE: blacklist([...RNACBL, ...REAPATCH]),
   },
   transformer: {
+    babelTransformerPath: require.resolve('./metro.transform.js'),
     getTransformOptions: async () => ({
       transform: {
         experimentalImportSupport: true,
