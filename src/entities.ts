@@ -25,3 +25,11 @@ export interface ParsedAddressAsset {
   type?: string;
   uniqueId: string;
 }
+
+export interface IndexToken {
+  amount: string;
+  address: string;
+  decimals: number;
+  name: string;
+  symbol: string;
+}
