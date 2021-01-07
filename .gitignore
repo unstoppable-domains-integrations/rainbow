@@ -79,3 +79,6 @@ pc-api-8090318172169087080-31-b8ee34328314.json
 # AppDelegate.pch (Important to maintain the initial template!)
 ios/Rainbow/AppDelegate.pch
 
+# Headers (Ignore local that may be applied.)
+ios/Headers
+
